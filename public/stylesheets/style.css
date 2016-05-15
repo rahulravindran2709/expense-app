@@ -3,6 +3,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+
+
+.expense-item{
+	padding: 10px;
+	border:1px solid #ccc;
+}
+.expense-amount{
+	float:right;
 }

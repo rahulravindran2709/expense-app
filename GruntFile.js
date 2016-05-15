@@ -11,8 +11,8 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['<%= jshint.files %>'],
-            tasks: ['jshint']
+            files: ['views/jsx/*.jsx'],
+            tasks: ['babel']
         },
         bowerInstall: {
 

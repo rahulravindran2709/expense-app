@@ -2,28 +2,47 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    </head>
-    <body>
-        <!--[if lt IE 7]>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- bower:css -->
+    <link  rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- endbower -->
+    <link link rel="stylesheet" href="stylesheets/style.css">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+
+<body>
+    <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-        <div id ="content"></div>
-
+        <nav class="navigation">
+        	<div class="navbar">
+        		
+        	</div>
+        </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-offset-4 col-xs-4">
+                <div id="content"></div>
+            </div>
+        </div>
         <!-- bower:js -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/jquery-1.12.3.min/index.js"></script>
         <script src="../bower_components/react/react.js"></script>
         <script src="../bower_components/react/react-dom.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="../bower_components/babel-standalone/babel.js"></script>
         <!-- endbower -->
-        <script src="javascripts/react/app.js"></script>
-    </body>
+        <script type="text/babel" src="javascripts/react/app.js"></script>
+</body>
+
 </html>

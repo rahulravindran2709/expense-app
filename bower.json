@@ -20,6 +20,9 @@
   ],
   "dependencies": {
     "jquery-1.12.3.min": "https://code.jquery.com/jquery-1.12.3.min.js",
-    "react": "^15.0.2"
-  }
+    "react": "^15.0.2",
+    "bootstrap": "^3.3.6",
+    "babel-standalone": "^6.7.4"
+  },
+  "devDependencies": {}
 }

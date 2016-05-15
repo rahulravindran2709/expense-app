@@ -1,3 +1,10 @@
+var ExpenseItem = React.createClass({
+	render :function(){
+		return (<div className="expense-item"><span className="expense-text">{this.props.expenseProp.name}</span><span className="expense-amount">${this.props.expenseProp.value}</span></div>);
+	}
+});
+
+
 var ExpenseApp = React.createClass({
 	handleGetExpenses:function(results){
 		this.setState({expenses:results})
@@ -11,7 +18,10 @@ var ExpenseApp = React.createClass({
 	      $.get('/expenses',this.handleGetExpenses);
 	},
 	render:function(){
-		return (<h2 className="myclass">sometext</h2>);
+		var expenseNodes = this.state.expenses.map(function(currentExpense){
+			return (<ExpenseItem key={currentExpense.id} expenseProp={currentExpense}/>);
+		});
+		return (<div className="myclass">{expenseNodes}</div>);
 	}
 
 });
