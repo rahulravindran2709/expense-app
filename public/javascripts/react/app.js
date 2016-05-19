@@ -1,95 +1,67 @@
-"use strict";
-
 var ExpenseItem = React.createClass({
-	displayName: "ExpenseItem",
-
-	deleteExpense: function deleteExpense() {
+	deleteExpense:function(){
 		this.props.handleDelete(this.props.expenseProp.id);
 	},
-	render: function render() {
-		return React.createElement(
-			"div",
-			{ className: "expense-item " },
-			React.createElement(
-				"span",
-				{ className: "expense-text pull-left" },
-				this.props.expenseProp.name
-			),
-			React.createElement(
-				"span",
-				{ className: "expense-amount" },
-				"$",
-				this.props.expenseProp.value
-			),
-			React.createElement(
-				"a",
-				{ className: "remove-expense pull-right", onClick: this.deleteExpense },
-				"X"
-			)
-		);
+	render :function(){
+		return (<div className="expense-item "><span className="expense-text pull-left">{this.props.expenseProp.name}</span>
+			<span className="expense-amount">${this.props.expenseProp.value}</span>
+			<a className="remove-expense pull-right" onClick={this.deleteExpense}>X</a></div>);
 	}
 });
+
 
 var ExpenseTotal = React.createClass({
-	displayName: "ExpenseTotal",
-
-
-	render: function render() {
-		return React.createElement(
-			"div",
-			{ className: "expense-total" },
-			"Grand Total:",
-			React.createElement(
-				"span",
-				{ className: "total-amount" },
-				"$",
-				this.props.total
-			)
-		);
+	
+	render:function(){
+		return (<div className="expense-total">Grand Total:<span className="total-amount">${this.props.total}</span></div>);
 	}
 
-});
+	});
+var NewExpense = React.createClass({
+	handleKeypress:function(event){
+		if(event.which!==13){
+			return;
+		}
 
+		this.props.addNewExpense();},
+	render:function(){
+		return (<input type="text" className="add-expense-input form-control" onKeypress="this.handleKeypress" />);
+	}
+});
 var ExpenseApp = React.createClass({
-	displayName: "ExpenseApp",
+	addItem:function(){
 
-	removeItem: function removeItem(id) {
-		console.log('remove' + id);
-		this.state.expenses = this.state.expenses.filter(function (currentElem) {
-			return currentElem.id !== id;
+	},
+	removeItem:function(id){
+		this.state.expenses = this.state.expenses.filter(function(currentElem){
+			return currentElem.id!==id;
 		});
-		this.setState({ expenses: this.state.expenses });
+		this.setState({expenses:this.state.expenses})
 	},
-	handleGetExpenses: function handleGetExpenses(results) {
-		this.setState({ expenses: results });
+	handleGetExpenses:function(results){
+		this.setState({expenses:results,newExpense:''})
 	},
-	getTotal: function getTotal() {
-		return this.state.expenses.reduce(function (previousValue, currentValue) {
-			return previousValue + currentValue.value;
-		}, 0);
+	getTotal:function(){
+		return  this.state.expenses.reduce(function(previousValue,currentValue){
+			return previousValue+currentValue.value;
+		},0);
 	},
-	getInitialState: function getInitialState() {
-		return {
-			expenses: []
-		};
+	getInitialState:function() {
+	    return {
+	        expenses:[] 
+	    };
 	},
-	componentDidMount: function componentDidMount() {
-		$.get('/expenses', this.handleGetExpenses);
+	componentDidMount:function() {
+	      $.get('/expenses',this.handleGetExpenses);
 	},
-	render: function render() {
+	render:function(){
 		var expenseAppComponent = this;
-		var expenseNodes = this.state.expenses.map(function (currentExpense) {
-			return React.createElement(ExpenseItem, { key: currentExpense.id, expenseProp: currentExpense, handleDelete: expenseAppComponent.removeItem });
+		var expenseNodes = this.state.expenses.map(function(currentExpense){
+			return (<ExpenseItem key={currentExpense.id} expenseProp={currentExpense} handleDelete={expenseAppComponent.removeItem}/>);
 		});
-		return React.createElement(
-			"div",
-			{ className: "expense-items" },
-			expenseNodes,
-			React.createElement("hr", null),
-			React.createElement(ExpenseTotal, { total: this.getTotal() })
-		);
+		return (<div><NewExpense addNewExpense={this.addItem}/><div className="expense-items">{expenseNodes}<hr /><ExpenseTotal total={this.getTotal()}/></div></div>);
 	}
 
 });
 
-ReactDOM.render(React.createElement(ExpenseApp, null), document.getElementById('content'));
+ReactDOM.render(<ExpenseApp />,document.getElementById('content'));
