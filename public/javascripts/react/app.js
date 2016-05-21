@@ -20,7 +20,8 @@ var ExpenseTotal = React.createClass({
 var NewExpense = React.createClass({
 	getInitialState() {
 	    return {
-	        newExpenseInput:'some'  
+	        newExpenseName:'' ,
+	        newExpenseAmount:'0.00' 
 	    };
 	},
 	setExpense:function(boj){
@@ -30,24 +31,37 @@ var NewExpense = React.createClass({
 	handleChange:function(){
 		console.log('on change');
 	},
+	handleSubmit:function(event){
+		this.props.addNewExpense({name:this.state.newExpenseName,amount:this.state.expenseAmount});
+		this.setState({newExpenseInput:'',newExpenseAmount})
+		return true;
+	},
 	handleKeypress:function(event){
 		if(event.which!==13){
 			return;
 		}
 		event.preventDefault();
-		this.props.addNewExpense(this.state.newExpenseInput);
-		this.setState({newExpenseInput:''})
-		return true;
+		
 	},
 	render:function(){
-		return (<input type="text" className="add-expense-input form-control" value={this.state.newExpenseInput} onKeyPress={this.handleKeypress} onChange={this.handleChange}/>);
+		return (<form className="form" >
+			<div className="form-group">
+			<label htmlFor="expense-name">Expense type</label>
+			<input type="text" className="add-expense-input form-control" id="expense-name" value={this.state.newExpenseName} />
+			</div>
+			<div className="form-group">
+			<label htmlFor="expense-name">Expense type</label>
+			<input type="text" className="add-expense-input form-control" id="expense-name" value={this.state.newExpenseAmount} />
+			</div>
+			<button className="btn btn-primary" onClick={this.handleSubmit}>Create</button></form>);
 	}
 });
-
 var ModalWindow = React.createClass({
 	render:function(){
 		if(this.props.toggleOpen){
-		return (<div className="modal-container">{this.props.children}</div>);
+		return (<div className="modal-container">
+			<span className="modal-close" onClick={this.props.toggleClose}>X</span>{this.props.children}
+			</div>);
 	}
 	else{
 		return false;
@@ -59,6 +73,10 @@ var ExpenseApp = React.createClass({
 	addItem:function(item){
 		console.log('item received'+item)
 	},
+	handleClose:function(){
+		this.setState({isModalOpen:false});
+	},
+
 	removeItem:function(id){
 		this.state.expenses = this.state.expenses.filter(function(currentElem){
 			return currentElem.id!==id;
@@ -92,7 +110,15 @@ var ExpenseApp = React.createClass({
 		});
 
 		var newExpenseButtonNode = (<button className="btn btn-primary" onClick={this.openExpenseForm}>New Expense</button>);
-		return (<div className="main"><ModalWindow toggleOpen={this.state.isModalOpen}><span>My content</span></ModalWindow><div className="expense-items">{expenseNodes}<hr /><ExpenseTotal total={this.getTotal()}/></div>{newExpenseButtonNode}</div>);
+		var modalWindowNode = (<ModalWindow toggleOpen={this.state.isModalOpen} toggleClose={this.handleClose}><NewExpense /></ModalWindow>);
+		var expenseTotalNode = (<ExpenseTotal total={this.getTotal()}/>);
+		return (<div className="main">
+			<div className="col-xs-offset-4 col-xs-4">
+			<div className="expense-container">
+			<div className="expense-items">{expenseNodes}
+			<hr />{expenseTotalNode}</div>{newExpenseButtonNode}</div>
+			</div>{modalWindowNode}
+			</div>);
 
 	}
 

@@ -9,3 +9,16 @@ body {
 	padding: 10px;
 	border:1px solid #ccc;
 }
+
+
+.modal-container{
+	width:60vw;
+	height:60vh;
+	position: fixed;
+	background-color:#fff;
+	border-radius:5px;
+	box-shadow:5px 5px 5px #333;
+	padding:15px;
+	border:1px solid #333;
+	z-index:500;
+}
