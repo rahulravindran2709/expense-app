@@ -15,6 +15,7 @@ body {
 	width:60vw;
 	height:60vh;
 	position: fixed;
+	top:30vh;
 	background-color:#fff;
 	border-radius:5px;
 	box-shadow:5px 5px 5px #333;

@@ -21,37 +21,33 @@ var NewExpense = React.createClass({
 	getInitialState() {
 	    return {
 	        newExpenseName:'' ,
-	        newExpenseAmount:'0.00' 
+	        newExpenseAmount:'' 
 	    };
 	},
-	setExpense:function(boj){
-		console.log('in set expense'+boj)
-	},
 
-	handleChange:function(){
-		console.log('on change');
+	handleNameChange:function(event){
+		this.setState({newExpenseName:event.target.value});
+	},
+	handleAmountChange:function(event){
+		this.setState({newExpenseAmount:event.target.value})
 	},
 	handleSubmit:function(event){
-		this.props.addNewExpense({name:this.state.newExpenseName,amount:this.state.expenseAmount});
-		this.setState({newExpenseInput:'',newExpenseAmount})
+		console.log('in handleSubmit');
+		event.preventDefault();
+		this.props.addNewExpense({name:this.state.newExpenseName,value:parseFloat(this.state.newExpenseAmount)});
+		this.setState({newExpenseInput:'',newExpenseAmount:''})
 		return true;
 	},
-	handleKeypress:function(event){
-		if(event.which!==13){
-			return;
-		}
-		event.preventDefault();
-		
-	},
+
 	render:function(){
 		return (<form className="form" >
 			<div className="form-group">
 			<label htmlFor="expense-name">Expense type</label>
-			<input type="text" className="add-expense-input form-control" id="expense-name" value={this.state.newExpenseName} />
+			<input type="text" className="add-expense-input form-control" id="expense-name" onChange={this.handleNameChange} value={this.state.newExpenseName} />
 			</div>
 			<div className="form-group">
 			<label htmlFor="expense-name">Expense type</label>
-			<input type="text" className="add-expense-input form-control" id="expense-name" value={this.state.newExpenseAmount} />
+			<input type="text" className="add-expense-input form-control" id="expense-name" onChange={this.handleAmountChange} value={this.state.newExpenseAmount} />
 			</div>
 			<button className="btn btn-primary" onClick={this.handleSubmit}>Create</button></form>);
 	}
@@ -71,7 +67,10 @@ var ModalWindow = React.createClass({
 
 var ExpenseApp = React.createClass({
 	addItem:function(item){
-		console.log('item received'+item)
+		debugger;
+		console.log('item received'+item);
+		this.state.expenses = this.state.expenses.concat(item);
+		this.setState({expenses:this.state.expenses});
 	},
 	handleClose:function(){
 		this.setState({isModalOpen:false});
@@ -110,7 +109,7 @@ var ExpenseApp = React.createClass({
 		});
 
 		var newExpenseButtonNode = (<button className="btn btn-primary" onClick={this.openExpenseForm}>New Expense</button>);
-		var modalWindowNode = (<ModalWindow toggleOpen={this.state.isModalOpen} toggleClose={this.handleClose}><NewExpense /></ModalWindow>);
+		var modalWindowNode = (<ModalWindow toggleOpen={this.state.isModalOpen} toggleClose={this.handleClose}><NewExpense addNewExpense={this.addItem}/></ModalWindow>);
 		var expenseTotalNode = (<ExpenseTotal total={this.getTotal()}/>);
 		return (<div className="main">
 			<div className="col-xs-offset-4 col-xs-4">
